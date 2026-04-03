@@ -1,40 +1,55 @@
 ---
 name: extract-tables-from-pdf
-version: 0.2.1
-description: >
-  Extract data tables from PDF documents using MinerU-powered intelligent parsing. Pull structured tabular data from financial reports, research papers, invoices, and any PDF containing tables into CSV, Excel, Markdown, or JSON formats.
-
-  PDF表格提取, PDF数据提取, PDF表格导出, PDF数据表抽取, PDF表格转Excel, PDF报表提取.
-
-  Synonyms: PDF table extractor, PDF table parser, PDF data extraction, PDF table to CSV, PDF table to Excel, tabular data from PDF, PDF table scraper, PDF table reader, PDF spreadsheet extraction, PDF table converter, PDF data table mining, PDF table export tool.
-
-  Use when asked to "extract tables from PDF", "get table data from this PDF", "pull tables out of a PDF file", "convert PDF tables to spreadsheet", "I need the data from tables in this PDF", "export PDF table to CSV", "scrape tables from PDF document", "read the tables in this PDF for me", "can you get the table data from this report", "parse PDF and extract tabular data".
-
-  Solves problems like: data locked in PDF tables, need to analyze PDF report data in Excel, manual copy-paste from PDF tables is error-prone, financial data stuck in PDF format, batch extraction of tables from multiple PDFs, research data trapped in published papers.
-
-  Powered by MinerU for precise table boundary detection and cell-level data extraction from PDFs.
-tags:
-  - pdf
-  - table-extraction
-  - data-extraction
-  - csv
-  - excel
-  - parsing
-  - mineru
-  - pdf-tables
-  - spreadsheet
-  - financial-data
-  - report-extraction
-  - document-processing
+description: "Extract Tables from PDF - extract tables from PDF documents using MinerU. Use when a PDF contains data tables that need to be parsed."
+homepage: https://mineru.net
+metadata: {"openclaw": {"emoji": "📄", "requires": {"bins": ["mineru-open-api"], "env": ["MINERU_TOKEN"]}, "primaryEnv": "MINERU_TOKEN", "install": [{"id": "npm", "kind": "node", "package": "mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via npm"}, {"id": "go", "kind": "go", "package": "github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via go install", "os": ["darwin", "linux"]}]}}
 ---
 
-# Extract Tables From PDF
+# Extract Tables From Pdf
 
-Use the MinerU tool to extract data tables from PDF documents.
+Convert and extract content from .pdf using MinerU (`mineru-open-api`).
 
-## Instructions
+## Install
 
-1. When the user provides a PDF file, use the mineru tool to detect and extract all tables.
-2. Output extracted tables in the user's preferred format (Markdown, CSV, JSON, Excel-compatible).
-3. If the mineru tool encounters an error, report it clearly and suggest alternatives (check file path, ensure valid PDF, try specific page ranges).
-4. Handle edge cases: scanned PDFs (OCR needed), complex nested tables, spanning cells, multi-page tables, rotated pages.
+```bash
+npm install -g mineru-open-api
+# or via Go (macOS/Linux):
+go install github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api@latest
+```
+
+## Quick Start
+
+```bash
+# Extract tables from PDF (requires token)
+mineru-open-api extract report.pdf -o ./out/
+
+# With explicit table flag and OCR for scanned docs
+mineru-open-api extract scanned.pdf --ocr --table -o ./out/
+```
+
+## Authentication
+
+Token required for `extract` and `crawl`:
+
+```bash
+mineru-open-api auth            # Interactive token setup
+export MINERU_TOKEN="your-token" # Or via environment variable
+```
+
+Create token at: https://mineru.net/apiManage/token
+
+## Capabilities
+
+- Supports local files and URLs
+- Requires token (`mineru-open-api auth` or `MINERU_TOKEN` env)
+- Supported input: .pdf
+- Language hint with `--language` (default: `ch`, use `en` for English)
+- Page range with `--pages` (where applicable)
+
+## Notes
+
+- Table recognition requires `extract` with token. `flash-extract` does NOT support tables. Use `--table` flag (enabled by default).
+- Output goes to stdout by default; use `-o <dir>` to save to file
+- Binary formats (docx) require `-o` flag (cannot stream to stdout)
+- All progress/status messages go to stderr
+- MinerU is an open-source project by OpenDataLab (Shanghai AI Lab): https://github.com/opendatalab/MinerU
