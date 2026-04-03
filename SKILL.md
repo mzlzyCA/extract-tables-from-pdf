@@ -1,6 +1,6 @@
 ---
 name: extract-tables-from-pdf
-version: 0.2.0
+version: 0.2.1
 description: >
   Extract data tables from PDF documents using MinerU-powered intelligent parsing. Pull structured tabular data from financial reports, research papers, invoices, and any PDF containing tables into CSV, Excel, Markdown, or JSON formats.
 
